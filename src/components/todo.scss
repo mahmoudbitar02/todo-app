@@ -1,0 +1,44 @@
+.todo-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
+
+  &__item {
+    margin-top: 0.8rem;
+    padding: 0.5rem;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      box-shadow: 0px 17px 28px -16px rgba(0, 0, 0, 0.53);
+    }
+  }
+
+  &__item-left {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  &__checkbox {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+  }
+
+  &__label {
+    text-align: start;
+    margin-left: 0.5rem;
+    width: fit-content;
+    cursor: pointer;
+  }
+}
+
+.done {
+  text-decoration: line-through;
+}
