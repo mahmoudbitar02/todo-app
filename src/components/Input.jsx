@@ -1,27 +1,42 @@
 import Button from "./Buttons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Todo from "./Todo";
 import "./input.scss";
 import "./todo.scss";
 
 function InputField() {
+  const savedTodos = JSON.parse(localStorage.getItem("todos"));
   const [inputValue, setInputValue] = useState("");
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState(savedTodos || []);
+
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
+
   function handleInputChange(event) {
     setInputValue(event.target.value);
   }
 
   function handleAddClicked() {
     if (inputValue.trim() === "") return;
-    setTodos([...todos, { text: inputValue, checked: false }]);
+    const updatedTodos = [...todos, { text: inputValue, checked: false }];
+    setTodos(updatedTodos);
     setInputValue("");
+    // localStorage.setItem("todos", JSON.stringify(updatedTodos));
   }
 
   function handleToggle(key) {
     const updatedTodos = [...todos];
     updatedTodos[key].checked = !updatedTodos[key].checked;
     setTodos(updatedTodos);
-    console.log(todos);
+
+    // localStorage.setItem("todos", JSON.stringify(updatedTodos));
+  }
+
+  function handleDeleteTodo(key) {
+    const filterdTodos = todos.filter((_, index) => index !== key);
+    setTodos(filterdTodos);
+    // localStorage.setItem("todos", JSON.stringify(filterdTodos));
   }
 
   return (
@@ -32,7 +47,16 @@ function InputField() {
       </div>
       <ul className="todo-list">
         {todos.length > 0 ? (
-          todos.map((todo, key) => <Todo key={key} id={key + 1} text={todo.text} checked={todo.checked} toggle={() => handleToggle(key)} />)
+          todos.map((todo, key) => (
+            <Todo
+              key={key}
+              deleteTodo={() => handleDeleteTodo(key)}
+              id={key + 1}
+              text={todo.text}
+              checked={todo.checked}
+              toggle={() => handleToggle(key)}
+            />
+          ))
         ) : (
           <p>Keine Todos vorhanden</p>
         )}

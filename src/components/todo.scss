@@ -29,6 +29,7 @@
     width: 20px;
     height: 20px;
     cursor: pointer;
+    accent-color: #4095f0;
   }
 
   &__label {
@@ -41,4 +42,5 @@
 
 .done {
   text-decoration: line-through;
+  color: #ccc;
 }
